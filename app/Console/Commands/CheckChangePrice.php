@@ -26,7 +26,6 @@ class CheckChangePrice extends Command
      * Execute the console command.
      */
     public function handle(): void {
-
         $offset  = 0;
         $service = new SubscriptionService();
         do {
