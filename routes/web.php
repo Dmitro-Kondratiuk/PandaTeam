@@ -25,9 +25,12 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
     ->middleware(['auth', 'signed'])
     ->name('verification.verify');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/',[SubscriptionController::class, 'index'])->name('index');
-    Route::post('/createSubscription',[SubscriptionController::class, 'createSubscription'])->name('createSubscription');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/', [SubscriptionController::class, 'index'])->name('index');
+    Route::post('/createSubscription', [
+        SubscriptionController::class,
+        'createSubscription',
+    ])->name('createSubscription');
 });
 
 

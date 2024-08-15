@@ -73,7 +73,7 @@ class SubscriptionService
             'user_id' => $id,
             'url'     => $priceTracking->url,
         ])->first();
-        $data = [
+        $data               = [
             'price' => $priceTracking->price,
             'url'   => $priceTracking->url,
         ];
@@ -81,7 +81,8 @@ class SubscriptionService
         Mail::to($subscriptionOnItem->email)->send(new AlertsMail($data));
 
         if ($priceTracking instanceof PriceTracking) {
-            $priceTracking->status = 'Sent';
+            $priceTracking->status     = 'Sent';
+            $priceTracking->updated_at = now();
             $priceTracking->save();
         }
     }

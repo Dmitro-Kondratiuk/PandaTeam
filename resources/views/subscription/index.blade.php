@@ -25,7 +25,7 @@
                 </div>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Подписаться</button>
+            <button type="submit" class="btn btn-primary btn-block">Subscribe</button>
             {{-- Если есть сообщение об ошибке --}}
             @if (session('message'))
                 <div class="alert alert-danger mt-3">
