@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Mail\AlertsMail;
 use App\Models\PriceTracking;
-use App\Models\User;
+use App\Models\SubscriptionOnItem;
 use Exception;
 use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\RemoteWebDriver;
@@ -39,7 +39,7 @@ class SubscriptionService
             $price   = $element->getText();
         }
         catch (Exception $e) {
-            echo "Ошибка: " . $e->getMessage();
+            echo "Error: " . $e->getMessage();
         }
 
         return $price;
@@ -69,10 +69,20 @@ class SubscriptionService
     }
 
     public function sendMail($id, $priceTracking): void {
-        $user = User::where(['id' => $id])->first();
-        $data = ['price' => $priceTracking->price];
-        Mail::to($user->email)->send(new AlertsMail($data));
-        $priceTracking->status = 'Sent';
-        $priceTracking->save();
+        $subscriptionOnItem = SubscriptionOnItem::where([
+            'user_id' => $id,
+            'url'     => $priceTracking->url,
+        ])->first();
+        $data = [
+            'price' => $priceTracking->price,
+            'url'   => $priceTracking->url,
+        ];
+
+        Mail::to($subscriptionOnItem->email)->send(new AlertsMail($data));
+
+        if ($priceTracking instanceof PriceTracking) {
+            $priceTracking->status = 'Sent';
+            $priceTracking->save();
+        }
     }
 }

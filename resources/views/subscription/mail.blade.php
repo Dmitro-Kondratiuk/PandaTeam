@@ -1,1 +1,1 @@
-The price of your product has changed {{ $price}}
+The price of your <a href="{{$url}}">product</a> has changed on {{ $price}}
