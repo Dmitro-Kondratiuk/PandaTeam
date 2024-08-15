@@ -26,8 +26,8 @@ class SubscriptionController extends Controller
         $userId                = auth()->user()->getAuthIdentifier();
 
         $subscription          = new SubscriptionOnItem();
-        $subscription->url     = $data['url'];
-        $subscription->email   = $data['email'];
+        $subscription->url     = htmlspecialchars($data['url']);
+        $subscription->email   = htmlspecialchars($data['email']);
         $subscription->user_id = $userId;
         $subscription->save();
 

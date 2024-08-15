@@ -21,8 +21,8 @@ class UserController extends Controller
         $data = $request->all();
         $user = new User();
 
-        $user->name     = htmlentities($data['name']);
-        $user->email    = htmlentities($data['email']);
+        $user->name     = htmlspecialchars($data['name']);
+        $user->email    = htmlspecialchars($data['email']);
         $user->password = bcrypt($data['password']);
         $user->save();
 
